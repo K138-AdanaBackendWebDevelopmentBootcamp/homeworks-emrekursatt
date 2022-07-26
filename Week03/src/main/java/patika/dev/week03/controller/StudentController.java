@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import patika.dev.week03.models.Course;
+import patika.dev.week03.models.Student;
 import patika.dev.week03.service.Interface.IStudentService;
 
 import java.util.List;
@@ -22,9 +23,9 @@ public class StudentController {
     }
 
     @PostMapping("/students")
-    public ResponseEntity<Course> saveStundent(@RequestBody Course course) {
+    public ResponseEntity<Course> saveStundent(@RequestBody Student student) {
 
-        return new ResponseEntity<>((Course) iStudentService.save(course), HttpStatus.OK);
+        return new ResponseEntity<>((Student) iStudentService.save(student), HttpStatus.OK);
 
 
     }

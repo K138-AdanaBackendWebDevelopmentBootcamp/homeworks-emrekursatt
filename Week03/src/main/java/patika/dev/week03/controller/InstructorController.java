@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import patika.dev.week03.models.Course;
+import patika.dev.week03.models.Instructor;
 import patika.dev.week03.service.Interface.IInstructorService;
 
 
@@ -23,9 +24,9 @@ public class InstructorController {
     }
 
     @PostMapping("/instructor")
-    public ResponseEntity<Course> saveInstructor(@RequestBody Course course) {
+    public ResponseEntity<Course> saveInstructor(@RequestBody Instructor instructor) {
 
-        return new ResponseEntity<>((Course) iInstructorService.save(course), HttpStatus.OK);
+        return new ResponseEntity<>((Instructor) iInstructorService.save(instructor), HttpStatus.OK);
 
 
     }
