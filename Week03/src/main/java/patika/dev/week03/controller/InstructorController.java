@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import patika.dev.week03.models.Course;
 import patika.dev.week03.models.Instructor;
+import patika.dev.week03.models.Student;
 import patika.dev.week03.service.Interface.IInstructorService;
 
 
@@ -17,14 +18,14 @@ public class InstructorController {
     IInstructorService iInstructorService;
 
     @GetMapping("/instructor")
-    public ResponseEntity<List<Course>> getAllInstructor() {
+    public ResponseEntity<List<Instructor>> getAllInstructor() {
         return new ResponseEntity<>(iInstructorService.findAll(), HttpStatus.OK);
 
 
     }
 
     @PostMapping("/instructor")
-    public ResponseEntity<Course> saveInstructor(@RequestBody Instructor instructor) {
+    public ResponseEntity<Instructor> saveInstructor(@RequestBody Instructor instructor) {
 
         return new ResponseEntity<>((Instructor) iInstructorService.save(instructor), HttpStatus.OK);
 

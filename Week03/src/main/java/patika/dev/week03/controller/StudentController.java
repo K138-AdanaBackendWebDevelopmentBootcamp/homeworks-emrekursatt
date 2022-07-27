@@ -15,15 +15,16 @@ public class StudentController {
 
     IStudentService iStudentService;
 
+
     @GetMapping("/students")
-    public ResponseEntity<List<Course>> getAllStudent() {
+    public ResponseEntity<List<Student>> getAllStudent() {
         return new ResponseEntity<>(iStudentService.findAll(), HttpStatus.OK);
 
 
     }
 
     @PostMapping("/students")
-    public ResponseEntity<Course> saveStundent(@RequestBody Student student) {
+    public ResponseEntity<Student> saveStundent(@RequestBody Student student) {
 
         return new ResponseEntity<>((Student) iStudentService.save(student), HttpStatus.OK);
 
