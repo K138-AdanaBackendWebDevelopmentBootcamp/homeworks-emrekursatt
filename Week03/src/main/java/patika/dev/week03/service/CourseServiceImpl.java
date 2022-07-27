@@ -8,6 +8,7 @@ import patika.dev.week03.models.Course;
 import patika.dev.week03.service.Interface.ICourseService;
 
 import java.util.List;
+
 @Service
 public class CourseServiceImpl implements ICourseService<Course> {
 
@@ -15,18 +16,21 @@ public class CourseServiceImpl implements ICourseService<Course> {
     ICourseDAO iCourseDAO;
 
     @Autowired
-    public CourseServiceImpl( ICourseDAO iCourseDAO) {
+    public CourseServiceImpl(@Qualifier("courseDAOJPAImpl") ICourseDAO iCourseDAO) {
+
         this.iCourseDAO = iCourseDAO;
     }
 
 
     @Override
     public List<Course> findAll() {
+
         return null;
     }
 
     @Override
     public Course findById(int id) {
+
         return null;
     }
 

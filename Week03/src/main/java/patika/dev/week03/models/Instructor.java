@@ -28,6 +28,7 @@ public class Instructor {
         this.address = address;
         this.phoneNumber = phoneNumber;
     }
+
     public List<Course> getCourseList() {
         return courseList;
     }

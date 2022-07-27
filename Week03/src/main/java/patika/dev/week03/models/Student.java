@@ -1,10 +1,15 @@
 package patika.dev.week03.models;
 
+import lombok.AllArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+@AllArgsConstructor
+@Setter
 @Entity
 public class Student {
     @Id

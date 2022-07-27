@@ -8,10 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-@AllArgsConstructor
-@Setter
-@Entity
 
+
+@Entity
 public class Course {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
@@ -27,30 +26,23 @@ public class Course {
     @ManyToMany(mappedBy = "courseList" )
     private List<Student> studentList = new ArrayList<>();
 
-
     @ManyToOne
     private Instructor instructor;
-    public Course(String courseName, String courseCode, int creditScore) {
+
+    public Course(int id, String courseName, String courseCode, int creditScore, List<Student> studentList) {
+        this.id = id;
         this.courseName = courseName;
         this.courseCode = courseCode;
         this.creditScore = creditScore;
-    }
-
-
-    public Instructor getInstructor() {
-        return instructor;
-    }
-
-
-    public void setStudentList(List<Student> studentList) {
         this.studentList = studentList;
     }
-    public void setInstructor(Instructor instructor) {
-        this.instructor = instructor;
+
+    public int getId() {
+        return id;
     }
 
-    public List<Student> getStudentList() {
-        return studentList;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getCourseName() {
@@ -77,8 +69,12 @@ public class Course {
         this.creditScore = creditScore;
     }
 
-    public int getId() {
-        return id;
+    public List<Student> getStudentList() {
+        return studentList;
+    }
+
+    public void setStudentList(List<Student> studentList) {
+        this.studentList = studentList;
     }
 
     @Override
@@ -86,20 +82,22 @@ public class Course {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Course course = (Course) o;
-        return courseCode.equals(course.courseCode);
+        return id == course.id && creditScore == course.creditScore && Objects.equals(courseName, course.courseName) && Objects.equals(courseCode, course.courseCode) && Objects.equals(studentList, course.studentList);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(courseCode);
+        return Objects.hash(id, courseName, courseCode, creditScore, studentList);
     }
 
     @Override
     public String toString() {
         return "Course{" +
-                "courseName='" + courseName + '\'' +
+                "id=" + id +
+                ", courseName='" + courseName + '\'' +
                 ", courseCode='" + courseCode + '\'' +
                 ", creditScore=" + creditScore +
+                ", studentList=" + studentList +
                 '}';
     }
 }
