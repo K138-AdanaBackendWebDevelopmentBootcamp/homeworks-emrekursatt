@@ -31,6 +31,11 @@ public class CourseController {
         return courseService.findByCourseName(courseName);
     }
 
+    @GetMapping("/findByCreditScoreIsGreaterThan")
+    List<Course> findByCreditScoreIsGreaterThan(int creditScore){
+        return courseService.findByCreditScoreIsGreaterThan(creditScore);
+    }
+
     @PostMapping("/courses")
     public Course saveCourse(@RequestBody Course course){
         return courseService.saveCourse(course);
@@ -48,17 +53,13 @@ public class CourseController {
     }
 
     @DeleteMapping("/deleteByCourseName")
-    public String deleteByCourseName(@PathVariable String courseName){
-        courseService.deleteByCourseName(courseName);
+    public String deleteByCourseName(@PathVariable String name){
+        courseService.deleteByCourseName(name);
         return ("Deleted....");
     }
 
 
 
-    @GetMapping("/findByCreditScoreIsGreaterThan")
-    List<Course> findByCreditScoreIsGreaterThan(int creditScore){
-        return courseService.findByCreditScoreIsGreaterThan(creditScore);
-}
 
 
 

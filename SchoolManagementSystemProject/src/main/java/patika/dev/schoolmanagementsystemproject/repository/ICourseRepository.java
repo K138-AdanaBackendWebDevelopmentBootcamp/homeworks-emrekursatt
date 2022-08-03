@@ -11,10 +11,9 @@ public interface ICourseRepository extends CrudRepository<Course,Integer> {
 
 
     List<Course> findByCourseName(String courseName);
-
     List<Course> findByCreditScoreIsGreaterThan(int creditScore);
-    List<Course> findTopByCreditScoreIsGreaterThan(int creditScore);
 
+    List<Course> findTopByCreditScoreIsGreaterThan(int creditScore);
     void deleteByCourseName(String courseName);
 
 

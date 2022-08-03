@@ -40,16 +40,18 @@ public class CourseService {
         iCourseRepository.deleteById(id);
 
     }
+    @Transactional(readOnly = true)
 
     public List<Course> findByCourseName(String course) {
         return iCourseRepository.findByCourseName(course);
     }
-
+    @Transactional(readOnly = true)
     public List<Course> findByCreditScoreIsGreaterThan(int creditScore) {
         return iCourseRepository.findByCreditScoreIsGreaterThan(creditScore);
     }
-
+    @Transactional(readOnly = true)
     public void deleteByCourseName(String courseName) {
+
         iCourseRepository.deleteByCourseName(courseName);
     }
 }
