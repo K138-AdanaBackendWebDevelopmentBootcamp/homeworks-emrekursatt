@@ -30,7 +30,7 @@ public class CreditController {
     @Transactional(readOnly = true)
     public ResponseEntity getCreditByUserIdentityNumber(@PathVariable long idCardNumber){
 
-            return new ResponseEntity(iCreditService.getCreditByUserIdentityNumber(idCardNumber),HttpStatus.OK);
+            return new ResponseEntity(iCreditService.getCreditByUserTcNumber(idCardNumber),HttpStatus.OK);
 
 
     }

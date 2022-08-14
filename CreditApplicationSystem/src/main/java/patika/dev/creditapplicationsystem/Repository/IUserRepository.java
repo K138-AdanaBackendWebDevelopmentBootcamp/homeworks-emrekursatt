@@ -13,5 +13,5 @@ public interface IUserRepository extends JpaRepository<User, Long> {
     public User getUserByTc(long tc);
 
 
-    public User getUserByIdentityNumber(long tc);
+
 }

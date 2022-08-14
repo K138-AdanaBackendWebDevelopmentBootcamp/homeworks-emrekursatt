@@ -38,9 +38,8 @@ public class CreditServiceImpl implements ICreditService {
     }
 
     @SneakyThrows
-    @Override
-    public Credit getCreditByUserIdentityNumber(long tc) {
-        User foundUser = iUserRepository.getUserByIdentityNumber(tc);
+    public Credit getCreditByUserTcNumber(long tc) {
+        User foundUser = iUserRepository.getUserByTc(tc);
         if (foundUser == null)
             throw new NotFoundException("Not found user with id " + tc);
         if (foundUser.getCredit_info() == null)

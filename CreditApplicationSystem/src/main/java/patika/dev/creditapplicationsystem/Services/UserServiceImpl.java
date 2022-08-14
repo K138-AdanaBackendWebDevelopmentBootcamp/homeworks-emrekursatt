@@ -39,8 +39,8 @@ public class UserServiceImpl implements IUserService {
                 case "fullName":
                 case "identityNumber":
                 case "salary":
-                case"phoneNumber" :
-                case"databaseId" :
+                case "phoneNumber" :
+                case "id" :
                     this.userList = iUserRepository.findAll(Sort.by(direction?Sort.Direction.ASC:Sort.Direction.DESC,sortBy));
                     break;
                 default:

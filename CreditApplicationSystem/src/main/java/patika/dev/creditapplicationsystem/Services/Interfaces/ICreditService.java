@@ -9,5 +9,5 @@ public interface ICreditService {
 
     public Credit askByTcNumber(long idCardNumber);
 
-    public Credit getCreditByUserIdentityNumber(long idCardNumber);
+    public Credit getCreditByUserTcNumber(long idCardNumber);
 }
