@@ -6,7 +6,8 @@ import patika.dev.creditapplicationsystem.Models.Credit;
 
 @Service
 public interface ICreditService {
-    Credit findByTcNumber(long id);
 
-    Credit findByIdNumber(long id);
+    public Credit askByTcNumber(long idCardNumber);
+
+    public Credit getCreditByUserIdentityNumber(long idCardNumber);
 }

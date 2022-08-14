@@ -10,6 +10,8 @@ import java.util.List;
 @Repository
 public interface IUserRepository extends JpaRepository<User, Long> {
 
+    public User getUserByTc(long tc);
 
-    User getUserByTc(long id);
+
+    public User getUserByIdentityNumber(long tc);
 }

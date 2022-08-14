@@ -13,21 +13,19 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Credit {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private Long id;
-    private int creditLimit;
+    private Long id ;
+
+    public int creditLimitMultiplier = 4;
+
     private int creditScore;
-
-
-
+    private int creditLimit;
+    private State state;
 
     @OneToOne
-    @JoinColumn(name = "user_id")
+    @MapsId
+    @JoinColumn(name = "id")
     @JsonIgnore
     private User user;
-
-
 
     }
 

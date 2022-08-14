@@ -1,9 +1,13 @@
 package patika.dev.creditapplicationsystem.Services;
 
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import patika.dev.creditapplicationsystem.Exception.CreditInfoNotFoundException;
+import patika.dev.creditapplicationsystem.Exception.NotFoundException;
 import patika.dev.creditapplicationsystem.Models.Credit;
+import patika.dev.creditapplicationsystem.Models.State;
 import patika.dev.creditapplicationsystem.Models.User;
 import patika.dev.creditapplicationsystem.Repository.ICreditRepository;
 import patika.dev.creditapplicationsystem.Repository.IUserRepository;
@@ -13,32 +17,43 @@ import patika.dev.creditapplicationsystem.Services.Interfaces.ICreditService;
 @RequiredArgsConstructor
 public class CreditServiceImpl implements ICreditService {
 
-    @Autowired
-    ICreditRepository iCreditRepository;
-    @Autowired
-    IUserRepository iUserRepository;
+    private final IUserRepository iUserRepository;
+    private final ICreditRepository creditRepository;
+
+
+
 
     @Override
-    public Credit findByTcNumber(long id) {
-        User foundUser = iUserRepository.getUserByTc(id);
+    public Credit askByTcNumber(long tc) {
+        User foundUser = iUserRepository.getUserByTc(tc);
+        if (foundUser == null)
+            throw new NotFoundException("Not found user with id " + tc);
 
-        Credit credit = applyCreditScore(id);
+        Credit credit = defineCreditScore(tc);
         credit.setUser(foundUser);
 
-        learnCreditLimit(credit);
+        setStateAndLimit(credit);
 
-        return iCreditRepository.save(credit);
+        return creditRepository.save(credit);
     }
 
+    @SneakyThrows
+    @Override
+    public Credit getCreditByUserIdentityNumber(long tc) {
+        User foundUser = iUserRepository.getUserByIdentityNumber(tc);
+        if (foundUser == null)
+            throw new NotFoundException("Not found user with id " + tc);
+        if (foundUser.getCredit_info() == null)
+            throw new CreditInfoNotFoundException("the user with identity number : " + tc + " doesn't have Credit information !");
+        return foundUser.getCredit_info();
+    }
 
-
-
-    private Credit applyCreditScore(long id) {
-        String stringİd = Long.toString(id);
-        byte a = Byte.parseByte(String.valueOf(stringİd.charAt(stringİd.length() - 1)));
+    private Credit defineCreditScore(long identityNumber) {
+        String str_id = Long.toString(identityNumber);
+        byte n = Byte.parseByte(String.valueOf(str_id.charAt(str_id.length() - 1)));
         Credit credit = new Credit();
 
-        switch (a) {
+        switch (n) {
             case 0:
                 credit.setCreditScore(2000);
                 break;
@@ -56,34 +71,29 @@ public class CreditServiceImpl implements ICreditService {
                 break;
             default:
                 credit.setCreditScore(0);
-                throw new RuntimeException(id + " is WRONG ID !");
+                throw new RuntimeException(identityNumber + " is WRONG ID !");
         }
         return credit;
-
     }
 
-
-    private String learnCreditLimit(Credit credit) {
-
-        int creditLimitMultiplier = 4;
-
-        if (credit.getCreditScore() < 500) {
-            return "Credit Not Approved";
-        } else if (credit.getCreditScore() >= 500 && credit.getCreditScore() < 1000 && credit.getUser().getSalary() < 5000) {
-            credit.setCreditLimit(10000);
-            return "Credit Approved";
-        } else if (credit.getCreditScore() >= 500 && credit.getCreditScore() < 1000 && credit.getUser().getSalary() >= 5000) {
-            credit.setCreditLimit(2000);
-            return "Credit Approved";
-        } else if (credit.getCreditScore() >= 1000) {
-            credit.setCreditLimit((int) (credit.getUser().getSalary() * creditLimitMultiplier));
+    private void setStateAndLimit(Credit credit) {
+        {
+            if (credit.getCreditScore() < 500)
+                credit.setState(State.failure);
+            else if (credit.getCreditScore() >= 500 && credit.getCreditScore() < 1000 && credit.getUser().getSalary() < 5000) {
+                credit.setState(State.success);
+                credit.setCreditLimit(10_000);
+            } else if (credit.getCreditScore() >= 500 && credit.getCreditScore() < 1000 && credit.getUser().getSalary() >= 5000) {
+                credit.setState(State.success);
+                credit.setCreditLimit(20_000);
+            } else if (credit.getCreditScore() >= 1000) {
+                credit.setState(State.success);
+                credit.setCreditLimit(credit.getUser().getSalary() * credit.getCreditLimitMultiplier());
+            }
         }
-        return null;
     }
 
-    @Override
-    public Credit findByIdNumber(long id) {
-        return iCreditRepository.findById(id).get();
-    }
+
+
 
 }
